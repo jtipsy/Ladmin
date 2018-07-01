@@ -1,0 +1,91 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Ladmin API \u7ba1\u7406\u4e2d\u5fc3",
+        "description": "Ladmin API \u63a5\u53e3\u7ba1\u7406\u4e2d\u5fc3",
+        "termsOfService": "",
+        "contact": {
+            "email": "652008158@qq.com"
+        },
+        "version": "1.0.0"
+    },
+    "host": "api.iadmin.com",
+    "basePath": "/",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "paths": {
+        "/v1/pay": {
+            "post": {
+                "tags": [
+                    "App Interface"
+                ],
+                "summary": "\u6d4b\u8bd5\u63a5\u53e3",
+                "description": "\u79fb\u52a8\u7aefapp\u652f\u4ed8\u63a5\u53e3",
+                "operationId": "wechatPay",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    },
+                    "500": {
+                        "description": "service error"
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
+            }
+        },
+        "/v1/test": {
+            "post": {
+                "tags": [
+                    "test"
+                ],
+                "summary": "\u6d4b\u8bd5\u63a5\u53e3",
+                "description": "\u6d4b\u8bd5\u63a5\u53e3",
+                "operationId": "test",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "The user name for login",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "The password for login in clear text",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes"
+                    },
+                    "500": {
+                        "description": "service error"
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {},
+    "externalDocs": {
+        "description": "",
+        "url": ""
+    }
+}
