@@ -134,7 +134,7 @@ class IndexRepository {
 	public function getTotalDiscover(){
 		$TotalDiscover = new WechatDiscover();
         try{
-		$TotalDiscoverCount = $TotalDiscover->count();
+		$TotalDiscoverCount = $TotalDiscover->where('category','=',2)->count();
         }catch (Exception $e){
             return 'not find TotalDiscover';
         }
