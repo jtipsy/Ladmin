@@ -258,12 +258,12 @@
             @if (isset($errors) && count($errors) > 0 )
                 <div class="alert alert-danger">
                     @foreach($errors->all() as $error)
-                        <span class="help-block"><strong>{{ $error }}</strong></span>
+                        <span class="help-block" style="color:red;"><strong>{{ $error }}</strong></span>
                     @endforeach
                 </div>
             @endif
             <div class="loginh">
-                <div class="fl">会员登录</div>
+                <div class="fl">品牌登录</div>
                 <div class="fr">还没有账号<a id="sigup_now" href="{{env('SSO_SERVER')}}register" >立即注册</a></div>
                 <div class="clear"></div>
             </div>
@@ -287,12 +287,13 @@
                             <div class="loginsubmiting_inner"></div>
                         </div>
                     </div>
-                    <div class="fr"><a href="/">忘记密码?</a></div>
+                    <div class="fr"><a href="/password/email">忘记密码?</a></div>
                     <div class="clear"></div>
                 </div>
             </form>
         </div>
     </div>
+	<!--
     <div class="thirdlogin">
         <div class="pd50">
             <h4>用第三方帐号直接登录</h4>
@@ -304,6 +305,7 @@
             <div class="clear"></div>
         </div>
     </div>
+	-->
 </div>
 </body>
 </html>

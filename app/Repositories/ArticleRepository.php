@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\Cache;
 use App\Models\Article;
 use Mockery\CountValidator\Exception;
 use Flash;
@@ -15,11 +16,19 @@ class ArticleRepository {
      * @DateTime 2017-12-27
      * @return   array
      */
-    public function getAll()
+/*     public function getAll()
     {
 		$article = new Article();
 		$articles = $article->select('id','id','title','desc','thumb','view_count')->where('status','=','1')->orderBy("id", "desc")->limit(2)->get();
         return $articles;
+    } */
+	
+	public function getAll()
+    {
+		$value = Cache::get('article', function() {
+			return Article::select('id','id','title','desc','thumb','view_count')->where('status','=','1')->orderBy("id", "desc")->limit(2)->get();
+		});
+		return $value;
     }
 	
 	/**

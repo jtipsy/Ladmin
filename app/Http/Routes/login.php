@@ -3,15 +3,26 @@
 Route::group(['namespace'=>'Login','middleware' => ['web'] ], function() {
 	
 	Route::get('/i18n', 'IndexController@dataTableI18n');
-    Route::get('/login','LoginController@showLoginForm');
-    Route::post('/login','LoginController@login');
-
-    // 注册路由...
-    Route::get('/register', 'LoginController@getRegister');
+	
+	//login
+    Route::get('/login', 'BrandAuthController@showLoginForm');
+    Route::post('/login', 'BrandAuthController@postLogin');
+	
+	//register
+	Route::get('/register', 'LoginController@getRegister');
     Route::post('/register', 'LoginController@postRegister');
-
-
-    Route::get('/logout', 'LoginController@logout');
+	
+	//reset password
+	Route::get('/password/reset/{token}', 'PasswordController@getReset');
+	Route::post('/password/reset', 'PasswordController@postReset');
+	
+	//send email
+	Route::get('/password/email', 'PasswordController@getEmail');
+	Route::post('/password/email', 'PasswordController@postEmail');
+	
+	//logout
+    Route::get('logout', 'BrandAuthController@logout');
+	
 	//Jump brand management
     Route::get('/37fb591be38db52dd1d5f04b689008f6', 'BrandManagementController@Index');
 	
@@ -24,7 +35,7 @@ Route::group(['namespace'=>'Login','middleware' => ['web'] ], function() {
 	//Edit brand index
 	Route::get('/37fb591be38db52dd1d5f04b689008f9/{id}/edit', 'BrandManagementEditController@Index');
 	//Edit brand
-	Route::get('/37fb591be38db52dd1d5f04b689008f7/{id}', 'BrandManagementEditController@Edit');
+	Route::any('/37fb591be38db52dd1d5f04b689008f7/{id}', 'BrandManagementEditController@Edit');
 	
 	//Show products list
 	Route::get('/37fb591be38db52dd1d5f04b689008f5', 'BrandManagementProductListController@Index');
@@ -35,7 +46,7 @@ Route::group(['namespace'=>'Login','middleware' => ['web'] ], function() {
 	//Edit product index
 	Route::get('/37fb591be38db52dd1d5f04b689008f5/{id}/edit', 'BrandManagementProductEditController@Index');
 	//Edit product
-	Route::get('/37fb591be38db52dd1d5f04b689008f3/{id}', 'BrandManagementProductEditController@Edit');	
+	Route::any('/37fb591be38db52dd1d5f04b689008f3/{id}', 'BrandManagementProductEditController@Edit');	
 	//Delete product
 	Route::get('/37fb591be38db52dd1d5f04b689008f5/{id}/delete/{status}', 'BrandManagementProductListController@delete')
 		   ->where([
@@ -53,7 +64,8 @@ Route::group(['namespace'=>'Login','middleware' => ['web'] ], function() {
 	Route::post('/37fb591be38db52dd1d5f04b689008f1', 'BrandManagementStoreCreateController@Create');
 	//Edit store index
 	Route::get('/37fb591be38db52dd1d5f04b689008f2/{id}/edit', 'BrandManagementStoreEditController@Index');
-	Route::get('/37fb591be38db52dd1d5f04b689008f0/{id}', 'BrandManagementStoreEditController@Edit');
+	//Edit store
+	Route::any('/37fb591be38db52dd1d5f04b689008f0/{id}', 'BrandManagementStoreEditController@Edit');
 	//Delete store
 	Route::get('/37fb591be38db52dd1d5f04b689008f2/{id}/delete/{status}', 'BrandManagementStoreListController@delete')
 		   ->where([

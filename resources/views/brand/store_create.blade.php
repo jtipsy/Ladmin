@@ -21,9 +21,6 @@
 	</ul>
 </div>
 <div class="row margin-top-40">
-  @if($user_cookie == '' )
-  @include('flash::message')
-  @else
   <div class="col-md-12">
       <!-- BEGIN SAMPLE FORM PORTLET-->
       <div class="portlet light bordered">
@@ -72,7 +69,8 @@
                       <div class="form-group form-md-line-input">
                           <label class="col-md-1 control-label" for="thumb">{{trans('labels.brand_product.thumb')}}</label>
                           <div class="col-md-3">
-                              <div class="col-md-8 thumb-image">
+							  <input type="text" class="form-control" placeholder="请上传1:1长宽比的正方形图片，建议尺寸100×100" disabled="disabled">
+                              <div class="col-md-8 thumb-image" style="margin-top:6%;">
 									<img src="" id="logo_thum" width="200" height="200"/>
 									<input type="hidden" id="logo" name="logo" value="{{old('logo')}}" > 
 									<input id="file_logo" name="file_logo" type="file" multiple="true">
@@ -177,9 +175,7 @@
           </div>
       </div>
   </div>
-  @endif
 </div>
-
 @endsection
 @section('js')
     <script src="{{asset('backend/plugins/md-editor/js/editormd.js')}}"></script>

@@ -36,8 +36,8 @@ class FileUpload{
 		
 		// Settings
 		// $targetDir = ini_get("upload_tmp_dir") . DIRECTORY_SEPARATOR . "plupload";
-		$targetDir = public_path()."/backend/uploads/";
-		$uploadDir = public_path()."/backend/uploads/";
+		$targetDir = public_path()."/backend/uploads/advert/";
+		$uploadDir = public_path()."/backend/uploads/advert/";
 		
 		$cleanupTargetDir = true; // Remove old files
 		$maxFileAge = 5 * 3600; // Temp file age in seconds
@@ -46,17 +46,6 @@ class FileUpload{
 		// Create target dir
 		if (!file_exists($targetDir)) {
 			@mkdir($targetDir);
-		}
-		
-		// Create target dir
-		if (!file_exists($uploadDir)) {
-			@mkdir($uploadDir);
-		}
-		if (!file_exists($uploadDir."/small/")) {
-			@mkdir($uploadDir."/small/");
-		}
-		if (!file_exists($uploadDir."/middle/")) {
-			@mkdir($uploadDir."/middle/");
 		}
 		
 		// Get a file name
@@ -74,7 +63,7 @@ class FileUpload{
 		$md5File = @file('md5list2.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		$md5File = $md5File ? $md5File : array();
 		
-		if (isset($_REQUEST["md5"]) && array_search($_REQUEST["md5"], $md5File ) !== FALSE ) {
+		if (isset($_REQUEST["md5"]) && array_search($_REQUEST["md5"], $md5File ) !== FALSE ) { 
 			die('{"jsonrpc" : "2.0", "result" : null, "id" : "id", "exist": 1}');
 		}
 
@@ -86,29 +75,6 @@ class FileUpload{
 		// Chunking might be enabled
 		$chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
 		$chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
-		
-		
-		// Remove old temp files
-		if ($cleanupTargetDir) {
-			if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
-				die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
-			}
-		
-			while (($file = readdir($dir)) !== false) {
-				$tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
-		
-				// If temp file is current file proceed to the next
-				if ($tmpfilePath == "{$filePath}.part") {
-					continue;
-				}
-		
-				// Remove temp file if it is older than the max age and is not the current file
-				if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge)) {
-					@unlink($tmpfilePath);
-				}
-			}
-			closedir($dir);
-		}
 		
 		
 		// Open temp file
@@ -144,9 +110,7 @@ class FileUpload{
 		// Check if file has been uploaded
 		if (!$chunks || $chunk == $chunks - 1) {
 			// Strip the temp .part suffix off
-			rename("{$filePath}.part", $filePath);
-		
-			rename($filePath, $uploadPath);
+			rename("{$filePath}.part", $filePath);			
 			$uploadPath = self::mymd5($uploadPath);
 			array_push($md5File,$uploadPath );
 			$md5File = array_unique($md5File);
@@ -155,25 +119,7 @@ class FileUpload{
 
 		//image 处理
 		$img = Image::make($upload_toQiNiuPath);
-		$img->resize(300, null, function ($constraint) {
-			$constraint->aspectRatio();
-		});
-		$img->save($uploadDir."/middle/".$fileName);
 
-		$img->resize(150, null, function ($constraint) {
-			$constraint->aspectRatio();
-		});
-		$img->save($uploadDir."/small/".$fileName);
-
-		//upload to qinniu
-		$disk = QiniuStorage::disk('qiniu');
-
-		$disk->putFile($fileName,$upload_toQiNiuPath);
-		$disk->putFile("middle/".$fileName,$uploadDir."/middle/".$fileName);
-		$disk->putFile("small/".$fileName,$uploadDir."/middle/".$fileName);
-
-		// Return Success JSON-RPC response
-		//die('{"jsonrpc" : "2.0", "result" : null, "id" : "id"}');
 		return $fileName;
 	}
 	

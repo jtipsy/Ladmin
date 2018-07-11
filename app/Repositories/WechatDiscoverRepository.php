@@ -16,13 +16,10 @@ class WechatDiscoverRepository {
      * @return   array
      */
     public function getAll(){
-			$discovers = DB::table('wechat_user')
-			->leftJoin('discovers','discovers.uid','=','wechat_user.openid')
-			->where('discovers.category','=','1')
-			->select('discovers.id','discovers.num','discovers.content','discovers.image','discovers.view_count','discovers.created_at','wechat_user.nickName','wechat_user.avatarUrl','wechat_user.country')
-			->orderBy("discovers.id", "desc")
-			->get();
-		return $discovers;
+		$start = request('start', config('admin.golbal.list.start')); /*获取开始*/
+		//$discovers = WechatDiscover::select('id','view_count','nickName','avatarUrl','num','content','image','created_at')->where('category','=',1)->orderBy("id", "desc")->offset($start)->paginate(10);
+		$discovers = WechatDiscover::select('id','view_count','nickName','avatarUrl','num','content','image','created_at')->where('category','=',1)->orderBy("id", "desc")->get();
+		return $discovers;		
     }
 	
 	public function getField($id){

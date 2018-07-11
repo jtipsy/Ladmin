@@ -9,11 +9,12 @@ use App\Http\Controllers\Controller;
 use App\Repositories\WechatUserRepository;
 use App\Repositories\WechatDiscoverRepository;
 use App\Http\Requests\WechatDiscoverRequest;
+use App\Services\oss;
 use Log;
 class WechatController extends Controller{
 
     /**
-     * @api {post} /wechat/info/37fb591be38db52dd1d5f04b689008f6  授权登陆
+     * @api {get} /wechat/info/37fb591be38db52dd1d5f04b689008f6  授权登陆
      * @apiVersion 0.0.1
      * @apiName Wechat-Info
      * @apiGroup Wechat
@@ -137,18 +138,20 @@ class WechatController extends Controller{
 	}
  
 	//upload wechat images api
-    public function WechatImage(Request $request,WechatDiscoverRepository $repository){
-		if($request->hasFile('file')){
-			$images = "";
-			foreach($request->file('file') as $file) {
-				$data = array();
-				$filename = date('YmdHis').mt_rand(100,999).'.'.$file->getClientOriginalExtension();
-				$file->move(base_path().'/public/backend/uploads/supply', $filename);
-				$images[] = $filename;
-			}
-			$image = implode(",", $images);
-			//return json_encode($image_array);
+	public function WechatImage(Request $request){
+		$images = "";
+		foreach($request->file('file') as $pic) {
+			$pic = $pic->getRealPath();
+			$key = date('YmdHis'). mt_rand(100, 999) . '.jpg';
+			$keypath = date('Ymd')."/".$key;
+			$result = OSS::upload($keypath, $pic);
+			$images[] = $keypath;
+		}
+		$image = implode(",", $images);
+		if($result){
 			return $image;
+		}else{
+			return response()->json(['status_code'=>404,'msg'=>'上传数据丢失']);
 		}
 	}
 	

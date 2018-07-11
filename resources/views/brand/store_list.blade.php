@@ -20,7 +20,6 @@
 <!-- END PAGE BAR -->
 <div class="row margin-top-40">
     <div class="col-md-12">
-        @include('flash::message')
         <!-- Begin: life time stats -->
         <div class="portlet light portlet-fit portlet-datatable bordered">
           <div class="portlet-title">

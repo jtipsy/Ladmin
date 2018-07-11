@@ -1722,7 +1722,7 @@
             innerHTML: null,
             multiple: true,
             accept: null,
-            name: 'file',
+            name: 'file[]',
             style: 'webuploader-pick'   //pick element class attribute, default is "webuploader-pick"
         };
     

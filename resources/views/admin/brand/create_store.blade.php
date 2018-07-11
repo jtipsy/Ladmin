@@ -61,6 +61,23 @@
                               <div class="form-control-focus"> </div>
                           </div>
                       </div>
+					  <style>
+						.uploadify{display:inline-block;}
+						.uploadify-button{border:none;border-radius:2px;margin-top:8px;}
+						table.add_tab tr td span.uploadify-button-text{color:#FFF;margin:0;}
+					  </style>
+                      <div class="form-group form-md-line-input">
+                          <label class="col-md-1 control-label" for="thumb">{{trans('labels.brand_product.thumb')}}</label>
+                          <div class="col-md-3">
+							  <input type="text" class="form-control" placeholder="请上传1:1长宽比的正方形图片，建议尺寸100×100" disabled="disabled">
+                              <div class="col-md-8 thumb-image" style="margin-top:6%;">
+									<img src="" id="logo_thum" width="200" height="200"/>
+									<input type="hidden" id="logo" name="logo" value="{{old('logo')}}" > 
+									<input id="file_logo" name="file_logo" type="file" multiple="true">
+                              </div>
+                              <div class="form-control-focus"> </div>
+                          </div>
+                      </div>
 					  <div class="form-group form-md-line-input">
                           <label class="col-md-1 control-label" for="type">{{trans('labels.store.type')}}</label>
                           <div class="col-md-3">
@@ -162,6 +179,25 @@
 @endsection
 @section('js')
     <script src="{{asset('backend/plugins/md-editor/js/editormd.js')}}"></script>
+	<script src="{{asset('backend/plugins/uploadify/js/jquery.uploadify.min.js')}}" type="text/javascript"></script>
+	<script type="text/javascript">
+	<?php $timestamp = time();?>
+	$(function() {
+		$('#file_logo').uploadify({
+			'buttonText' : '{{trans("labels.brand_product.thumb")}}',
+			'formData'     : {
+				'timestamp' : '<?php echo $timestamp;?>',
+				'_token'     : "{{csrf_token()}}"
+			},
+			'swf'      : "{{asset('backend/plugins/uploadify/uploadify.swf')}}",
+			'uploader' : "{{url('admin/upload')}}",
+			'onUploadSuccess' : function(file, data, response) {
+				$('#logo_thum').attr('src',data);
+				$('input[name=thumb]').val(data);
+			}
+		});			
+	});
+	</script>
     <script type="text/javascript">
         var testEditor;
         var content;

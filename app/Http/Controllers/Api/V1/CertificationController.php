@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\CertificationRepository;
 use Flash;
+use App\Services\oss;
 
 class CertificationController extends Controller
 {
@@ -115,12 +116,20 @@ class CertificationController extends Controller
      */
     public function Image(Request $request,CertificationRepository $repository){
 		if($request->hasFile('file')){
-			foreach($request->file('file') as $file) {
-				$filename = date('YmdHis').mt_rand(100,999).'.'.$file->getClientOriginalExtension();
-				$file->move(base_path().'/public/backend/uploads/certification', $filename);
-				$filepath = getenv('IMAGE_PATH').'/backend/uploads/certification/'.$filename;
+			$images = "";
+			foreach($request->file('file') as $pic) {
+				$pic = $pic->getRealPath();
+				$key = date('YmdHis'). mt_rand(100, 999) . '.jpg';
+				$keypath = date('Ymd')."/".$key;
+				$result = OSS::upload($keypath, $pic);
+				$images[] =  $keypath;
 			}
-			return response()->json(['status_code'=>200,'msg'=>'successful','name'=>$filename]);
+			$image = implode(",", $images);
+			if($result){
+				return response()->json(['status_code'=>200,'msg'=>'successful','name'=>$image]);
+			}else{
+				return response()->json(['status_code'=>404,'msg'=>'上传失败']);
+			}
 		}
 	}
 	

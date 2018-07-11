@@ -13,6 +13,6 @@ class WechatDiscover extends Model {
 	
 	protected $action = "admin/supply/list";
 
-	protected $fillable = ['id','uid','nickName','avatarUrl','reply_id','name','num','content','image','category','status','view_count','created_at'];
+	protected $fillable = ['id','uid','nickName','avatarUrl','num','content','image','category','status','view_count','created_at'];
 
 }

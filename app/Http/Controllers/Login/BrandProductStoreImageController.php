@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\oss;
 
 class BrandProductStoreImageController extends Controller
 {
@@ -15,20 +16,19 @@ class BrandProductStoreImageController extends Controller
         $file = $request->file('Filedata');
         // 文件是否上传成功
         if ($file->isValid()) {
-
 			//扩展名
             $ext = $file->getClientOriginalExtension();
             //上传文件
             $filename = date('YmdHis').mt_rand(100,999).'.'.$ext;
 			//创建目录
 			$directory = date('Ymd');
-			if (!file_exists($directory)) {
-				@mkdir(base_path().'/public/backend/uploads/'.$directory);
-			}				
+			//文件临时路径
+			$file = $file->getRealPath();
             //上传文件到指定目录
-            $path = $file->move(base_path().'/public/backend/uploads/'.$directory,$filename);
-            $filepath = getenv('IMAGE_PATH').'/backend/uploads/'.$directory.'/'.$filename;
-			return $filepath;
+			$result = OSS::upload($directory."/".$filename, $file);
+			//$ImageUrl =  OSS::getUrl($directory."/".$filename);
+			$ImageUrl =  getenv('IMAGE_PATH')."/".$directory."/".$filename;
+			return $ImageUrl;
         }
     }
 	
@@ -44,19 +44,17 @@ class BrandProductStoreImageController extends Controller
             //上传文件
             $filename = date('YmdHis').mt_rand(100,999).'.'.$ext;
 			//创建目录
-			$directory = date('Ymd');
-			if (!file_exists($directory)) {
-				@mkdir(base_path().'/public/backend/uploads/'.$directory);
-			}				
+			$directory = date('Ymd');			
             //上传文件到指定目录
-            $path = $file->move(base_path().'/public/backend/uploads/'.$directory,$filename);
-            $filepath = getenv('IMAGE_PATH').'/backend/uploads/'.$directory.'/'.$filename;
+			OSS::upload($directory."/".$filename, $file);
+			//$ImageUrl =  OSS::getUrl($directory."/".$filename);
+			$ImageUrl =  getenv('IMAGE_PATH')."/".$directory."/".$filename;
 			//return $filepath;
 			$message="系统异常，文件保存失败";
 			$data = array(
 				'success' => 1,  //1：上传成功  0：上传失败
 				'message' => '上传成功',
-				'url' => $filepath
+				'url' => $ImageUrl
 			);
 			header('Content-Type:application/json;charset=utf8');
 			exit(json_encode($data));

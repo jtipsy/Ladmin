@@ -1,6 +1,5 @@
 @extends('brand.head')
 @section('content')
-@include('flash::message')
 <div id="myCarousel" class="carousel slide" >
     <!-- 轮播（Carousel）指标 -->
 	@foreach($brand as $b)
@@ -54,7 +53,11 @@
             </div>
         </div>
         <div class="about_bot clearfix">
-            <p class="about_bot_l wow fadeInLeft text-center">@if($b['describe']) {{$b['describe']}} @else 您还没有简介哟~ @endif</p>
+			@if($b['describe'])
+			<div id="editormd-view">
+				<textarea style="display: none" name="editormd-markdown-doc">{{$b['describe']}}</textarea>
+			</div>
+			@else <p class="about_bot_l wow fadeInLeft text-center">您还没有简介哟~ </p> @endif
         </div>
 	@endforeach
         <div class="show_top clearfix">
@@ -141,4 +144,35 @@
     }
 }
 </style>
+@endsection
+@section('js')
+	<script src="{{asset('backend/plugins/md-editor/lib/marked.min.js')}}"></script>
+	<script src="{{asset('backend/plugins/md-editor/js/editormd.js')}}"></script>
+	<script type="text/javascript">
+		$(function() {
+			var editormdView;
+			var markdown  = "";
+			editormdView = editormd.markdownToHTML("editormd-view", {
+				markdown        : markdown ,//+ "\r\n" + $("#append-test").text(),
+				//htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+				htmlDecode      : "style,script,iframe",  // you can filter tags decode
+				//toc             : false,
+				tocm            : true,    // Using [TOCM]
+				//tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+				//gfm             : false,
+				//tocDropdown     : true,
+				//markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+				emoji           : true,
+				taskList        : true,
+				tex             : true,  // 默认不解析
+				flowChart       : true,  // 默认不解析
+				sequenceDiagram : true,  // 默认不解析
+			});
+
+			// 获取Markdown源码
+			//console.log(testEditormdView.getMarkdown());
+
+		});
+
+	</script>
 @endsection

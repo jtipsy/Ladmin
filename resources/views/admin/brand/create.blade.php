@@ -68,7 +68,8 @@
                       <div class="form-group form-md-line-input">
                           <label class="col-md-1 control-label" for="logo">{{trans('labels.brand.logo')}}</label>
                           <div class="col-md-3">
-                              <div class="col-md-8 thumb-image">
+							  <input type="text" class="form-control" placeholder="请上传1:1长宽比的正方形图片，建议尺寸100×100" disabled="disabled">
+                              <div class="col-md-8 thumb-image" style="margin-top:6%;">
 									<img src="" id="logo_thum" width="200" height="200"/>
 									<input type="hidden" id="logo" name="logo" value="{{old('logo')}}" > 
 									<input id="file_logo" name="file_logo" type="file" multiple="true">

@@ -21,9 +21,6 @@
 	</ul>
 </div>
 <div class="row margin-top-40">
-  @if($user_cookie == '' )
-  @include('flash::message')
-  @else
   <div class="col-md-12">
       <!-- BEGIN SAMPLE FORM PORTLET-->
       <div class="portlet light bordered">
@@ -45,7 +42,7 @@
 					    </div>
 					    @endif
               @include('flash::message')
-			  <form role="form" class="form-horizontal" method="get" action="/37fb591be38db52dd1d5f04b689008f3/{{$product['id']}}">
+			  <form role="form" class="form-horizontal" method="POST" action="/37fb591be38db52dd1d5f04b689008f3/{{$product['id']}}">
               		{!! csrf_field() !!}
 					<input type="hidden" name="_method" value="PUT">
 					<input type="hidden" name="id" value="{{$product['id']}}">
@@ -65,7 +62,8 @@
                       <div class="form-group form-md-line-input">
                           <label class="col-md-1 control-label" for="thumb">{{trans('labels.brand_product.thumb')}}</label>
                           <div class="col-md-3">
-                              <div class="col-md-8 thumb-image">
+							  <input type="text" class="form-control" placeholder="请上传1:1长宽比的正方形图片，建议尺寸100×100" disabled="disabled">
+                              <div class="col-md-8 thumb-image" style="margin-top:6%;">
 									<img src="{{$product['thumb']}}" id="logo_thum" width="200" height="200"/>
 									<input type="hidden" id="thumb" name="thumb" value="{{$product['thumb']}}" > 
 									<input id="file_logo" name="file_logo" type="file" multiple="true">
@@ -139,9 +137,15 @@
                               <input type="text" class="form-control" id="net_weight" name="net_weight" value="{{$product['net_weight']}}">
                               <div class="form-control-focus"> </div>
                           </div>
-                      </div>						  					  
+                      </div>
                       <div class="form-group form-md-line-input">
-                          <label class="col-md-1 control-label" for="atlas1">{{trans('labels.brand_product.atlas')}}</label>
+                          <label class="col-md-1 control-label">{{trans('labels.brand_product.atlas')}}</label>
+						  <div class="col-md-3">
+							<input type="text" class="form-control" placeholder="建议上传960×549像素图像" disabled="disabled">
+						  </div>
+					  </div>					  
+                      <div class="form-group form-md-line-input">
+                          <label class="col-md-1 control-label" for="atlas1"></label>
                           <div class="col-md-3" style="width:15%;">
                               <div class="col-md-8 thumb-image">
 									<img src="{{$product['atlas1']}}" id="atlas1_thum" width="200" height="200"/>
@@ -354,7 +358,6 @@
           </div>
       </div>
   </div>
-  @endif
 </div>
 @endsection
 @section('js')
@@ -370,7 +373,7 @@
 				'_token'     : "{{csrf_token()}}"
 			},
 			'swf'      : "{{asset('backend/plugins/uploadify/uploadify.swf')}}",
-			'uploader' : "{{url('admin/upload')}}",
+			'uploader' : "{{url('/37fb591be38db52dd1d5f04b689008a0')}}",
 			'onUploadSuccess' : function(file, data, response) {
 				$('#logo_thum').attr('src',data);
 				$('input[name=thumb]').val(data);
@@ -383,7 +386,7 @@
 				'_token'     : "{{csrf_token()}}"
 			},
 			'swf'      : "{{asset('backend/plugins/uploadify/uploadify.swf')}}",
-			'uploader' : "{{url('admin/upload')}}",
+			'uploader' : "{{url('/37fb591be38db52dd1d5f04b689008a0')}}",
 			'onUploadSuccess' : function(file, data, response) {
 				$('#atlas1_thum').attr('src',data);
 				$('input[name=atlas1]').val(data);
@@ -396,7 +399,7 @@
 				'_token'     : "{{csrf_token()}}"
 			},
 			'swf'      : "{{asset('backend/plugins/uploadify/uploadify.swf')}}",
-			'uploader' : "{{url('admin/upload')}}",
+			'uploader' : "{{url('/37fb591be38db52dd1d5f04b689008a0')}}",
 			'onUploadSuccess' : function(file, data, response) {
 				$('#atlas2_thum').attr('src',data);
 				$('input[name=atlas2]').val(data);
@@ -409,7 +412,7 @@
 				'_token'     : "{{csrf_token()}}"
 			},
 			'swf'      : "{{asset('backend/plugins/uploadify/uploadify.swf')}}",
-			'uploader' : "{{url('admin/upload')}}",
+			'uploader' : "{{url('/37fb591be38db52dd1d5f04b689008a0')}}",
 			'onUploadSuccess' : function(file, data, response) {
 				$('#atlas3_thum').attr('src',data);
 				$('input[name=atlas3]').val(data);
@@ -422,7 +425,7 @@
 				'_token'     : "{{csrf_token()}}"
 			},
 			'swf'      : "{{asset('backend/plugins/uploadify/uploadify.swf')}}",
-			'uploader' : "{{url('admin/upload')}}",
+			'uploader' : "{{url('/37fb591be38db52dd1d5f04b689008a0')}}",
 			'onUploadSuccess' : function(file, data, response) {
 				$('#atlas4_thum').attr('src',data);
 				$('input[name=atlas4]').val(data);

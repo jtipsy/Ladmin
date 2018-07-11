@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'front_users',
     ],
 
     /*
@@ -106,12 +106,12 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
-    ],
-    'front_users' => [
-        'provider' => 'front_users',
-        'email' => 'auth.emails.password',
-        'table' => 'password_resets',
-        'expire' => 60,
+		'front_users' => [
+			'provider' => 'front_users',
+			'email' => 'auth.emails.password',
+			'table' => 'password_resets',
+			'expire' => 60,
+		],
     ],
 
 ];

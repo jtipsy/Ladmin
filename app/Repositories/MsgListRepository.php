@@ -15,7 +15,8 @@ class MsgListRepository {
     {
         $start = request('start', config('admin.golbal.list.start')); /*获取开始*/
 		$list = new Msglist();
-        $lists = $list->where('openid','=',$uid)->offset($start)->paginate(5);
+        //$lists = $list->where('openid','=',$uid)->offset($start)->paginate(5);
+        $lists = $list->where('openid','=',$uid)->get();
 		return $lists;
     }
 

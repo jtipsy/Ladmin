@@ -19,7 +19,7 @@ class CreateDiscoversTable extends Migration
 			$table->string("avatarUrl",200)->comment('头像');
 			$table->string("num",11)->comment('手机号');
 			$table->string("content",150)->comment('内容');
-			$table->string("image",250)->comment('图片URL');
+			$table->text("image")->comment('图片URL');
 			$table->integer("category")->default(1)->comment("类别：1供应 2求购");
 			$table->integer("status")->default(1)->comment("状态：1未处理 2已处理");
 			$table->integer("view_count")->default(0)->comment("浏览数"); 

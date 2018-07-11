@@ -73,7 +73,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
 	$api->get('/discover/reply/'.$_Token, 'DiscoverReplyController@index');
 
 	//wechat api
-	$api->post('/wechat/info/'.$_Token, 'WechatController@AuthLogin');
+	$api->get('/wechat/info/'.$_Token, 'WechatController@AuthLogin');
 	$api->get('/wechat/key/'.$_Token, 'WechatController@GetSessionKey');
 	$api->post('/wechat/image/'.$_Token, 'WechatController@WechatImage');
 	
@@ -100,6 +100,8 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
 	$api->get('/my/certification/licensee/status/'.$_Token, 'CertificationController@GetCount');
 	//会员中心下->修改昵称
 	$api->get('/wechat/name/edit/'.$_Token, 'WechatController@EditName');
+	
+	$api->post('/oss/'.$_Token, 'OssController@Image');
 	
 });
 // 配置api版本和路由

@@ -69,7 +69,7 @@ class DiscoverListController extends Controller
 			$id = $val['id'];
 			$update = $repository->updateViewCount($id);
 		}
-		if($Datas){
+		if($discover){
 			return response()->json(['status_code'=>200,'msg'=>'获取供应成功！','data'=>$Datas]);
 		}else{
 			return response()->json(['status_code'=>404,'msg'=>'暂无数据','data'=>false]);

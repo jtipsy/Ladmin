@@ -19,7 +19,8 @@
         "predis/predis":"^1.1",
         "jlapp/swaggervel":"dev-master",
         "kbwebs/multiauth": "~1.0",
-		"dingo/api": "1.0.*@dev"
+		"dingo/api": "1.0.*@dev",
+        "johnlui/aliyun-oss": "^2.2"
 
         
     },

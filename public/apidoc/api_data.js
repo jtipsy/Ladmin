@@ -1988,6 +1988,65 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/my/certification/licensee/status/37fb591be38db52dd1d5f04b689008f6?uid=openid",
+    "title": "补全信息-状态",
+    "version": "0.0.1",
+    "name": "My_Certification_License_Status",
+    "group": "Discover",
+    "parameter": {
+      "fields": {
+        "params": [
+          {
+            "group": "params",
+            "type": "String",
+            "optional": false,
+            "field": "uid",
+            "description": "<p>微信用户openid</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "count",
+            "description": "<p>消息数</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "certification",
+            "description": "<p>认证数</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "成功响应:",
+          "content": "\n{\n    \"status_code\": 200,\n    \"msg\": \"请求成功！\",\n    \"data\": \"201806290706.png\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败响应:",
+          "content": "{\n    \"status_code\": 404,\n    \"msg\": \"暂无数据\",\n    \"data\": false\n    \n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "app/Http/Controllers/Api/V1/CertificationController.php",
+    "groupTitle": "Discover"
+  },
+  {
+    "type": "get",
     "url": "/my/discover/index/37fb591be38db52dd1d5f04b689008f6?uid=openid",
     "title": "我的发布",
     "version": "0.0.1",
@@ -3930,7 +3989,7 @@ define({ "api": [
     "groupTitle": "SendCode"
   },
   {
-    "type": "post",
+    "type": "get",
     "url": "/wechat/info/37fb591be38db52dd1d5f04b689008f6",
     "title": "授权登陆",
     "version": "0.0.1",

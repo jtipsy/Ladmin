@@ -21,9 +21,6 @@
 	</ul>
 </div>
 <div class="row margin-top-40">
-  @if($user_cookie == '' )
-  @include('flash::message')
-  @else
   <div class="col-md-12">
       <!-- BEGIN SAMPLE FORM PORTLET-->
       <div class="portlet light bordered">
@@ -45,7 +42,7 @@
 					    </div>
 					    @endif
               @include('flash::message')
-              <form role="form" class="form-horizontal" method="get" action="/37fb591be38db52dd1d5f04b689008f7/{{$brand['id']}}">
+              <form role="form" class="form-horizontal" method="POST" action="/37fb591be38db52dd1d5f04b689008f7/{{$brand['id']}}">
               		{!! csrf_field() !!}
                   <input type="hidden" name="_method" value="PUT">
                   <input type="hidden" name="id" value="{{$brand['id']}}">
@@ -72,12 +69,13 @@
                       <div class="form-group form-md-line-input">
                           <label class="col-md-1 control-label" for="from">{{trans('labels.brand.logo')}}</label>
                           <div class="col-md-3">
+							  <input type="text" class="form-control" placeholder="请上传1:1长宽比的正方形图片，建议尺寸100×100" disabled="disabled">
                               <div class="col-md-8 thumb-image">
 									<img src="{{$brand['logo']}}" id="logo_thum" width="200" height="200"/>
 									<input type="hidden" id="logo" name="logo" value="{{$brand['logo']}}" > 
 									<input id="file_logo" name="file_logo" type="file" multiple="true">
                               </div>
-                              <div class="form-control-focus"> </div>
+                              <div class="form-control-focus"></div>
                           </div>
                       </div>	
 					  <div class="form-group form-md-line-input">
@@ -203,9 +201,15 @@
                               <input type="text" class="form-control" id="producer" name="producer" placeholder="{{trans('labels.brand.producer_instructions')}}" value="{{$brand['producer']}}">
                               <div class="form-control-focus"> </div>
                           </div>
-                      </div>					  
+                      </div>
                       <div class="form-group form-md-line-input">
-                          <label class="col-md-1 control-label" for="atlas1">{{trans('labels.brand.atlas')}}</label>
+                          <label class="col-md-1 control-label">{{trans('labels.brand.atlas')}}</label>
+						  <div class="col-md-3">
+							<input type="text" class="form-control" placeholder="建议上传960×549像素图像" disabled="disabled">
+						  </div>
+					  </div>
+                      <div class="form-group form-md-line-input">
+						  <label class="col-md-1 control-label" for="atlas1"></label>
                           <div class="col-md-3" style="width:15%;">
                               <div class="col-md-8 thumb-image">
 									<img src="{{$brand['atlas1']}}" id="atlas1_thum" width="200" height="200"/>
@@ -341,7 +345,6 @@
           </div>
       </div>
   </div>
-  @endif
 </div>
 @endsection
 @section('js')

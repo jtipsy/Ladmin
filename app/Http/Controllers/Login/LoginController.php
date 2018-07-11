@@ -14,7 +14,7 @@ class LoginController extends Controller
 {
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
-    protected $redirectTo = '/';
+    protected $redirectTo = '/37fb591be38db52dd1d5f04b689008f6';
     protected $username = 'username';
     protected $guard = 'front';
 
@@ -34,24 +34,6 @@ class LoginController extends Controller
     }
 
     /**
-     * 重写登录视图页面
-     *
-     * @itas
-     * @DateTime 2017-03-26
-     * @return   [type]     [description]
-     */
-    public function showLoginForm()
-    {
-        $seo = [
-            'title'    => 'login',
-            'desc'     => '单点登录系统',
-            'keywords' => 'Ladmin,单点登录系统',
-        ];
-
-        return view("login.login", compact('seo'));
-    }
-
-    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
@@ -60,6 +42,7 @@ class LoginController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+			'name' => 'required|max:255|unique:front_users,username',
             'email' => 'required|email|max:255|unique:front_users',
             'password' => 'required|confirmed|min:6',
         ]);
@@ -80,47 +63,9 @@ class LoginController extends Controller
         ]);
     }
 
-    public function logout()
-    {
-        $ticket = isset($_COOKIE['ticket']) ? $_COOKIE['ticket'] :'';
-        session()->forget($ticket);
-        setcookie('ticket',$ticket,time()-3600,'/',env('COOIKE_DOMAIN'));
-
-        Auth::guard($this->getGuard())->logout();
-
-        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
-    }
-
-
     public function createTicket()
     {
         return md5(str_random(10));
     }
-
-    /**
-     * Send the response after the user was authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  bool  $throttles
-     * @return \Illuminate\Http\Response
-     */
-    protected function handleUserWasAuthenticated(Request $request, $throttles)
-    {
-        if ($throttles) {
-            $this->clearLoginAttempts($request);
-        }
-
-        if (method_exists($this, 'authenticated')) {
-            return $this->authenticated($request, Auth::guard($this->getGuard())->user());
-        }
-
-        $ticket = $this->createTicket();
-        session()->put($ticket,auth('front')->user());
-        setcookie('ticket',$ticket,time()+3600*2,'/', env('COOIKE_DOMAIN'));
-        $this->redirectTo = request('oauth_callback')."/?ticket=".$ticket;
-
-        return redirect()->intended($this->redirectPath());
-    }
-
 
 }

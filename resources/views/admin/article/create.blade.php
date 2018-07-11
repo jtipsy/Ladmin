@@ -196,10 +196,10 @@
     <script type="text/javascript">
         var testEditor;
         var content;
-        var md = "{{old('content')}}";
+        var md ;
 
         $(function() {
-
+            md =  $("#content").val();
             testEditor = editormd("test-editormd", {
                 width: "90%",
                 height: 740,
@@ -209,13 +209,10 @@
                     return ["undo", "redo", "|", "bold", "del", "italic", "quote",
                         "ucwords", "uppercase", "lowercase", "|", "h1", "h2", "h3",
                         "h4", "h5", "h6", "|", "list-ul", "list-ol", "hr", "|", "link",
-                       // "reference-link", "image", "myImage", "code", "preformatted-text", "code-block",
-                        "reference-link","code", "preformatted-text", "code-block",
+                        "reference-link", "image", "myImage", "code", "preformatted-text", "code-block",
                         "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
                         "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|", "help", "info"];
-                    // Or return editormd.toolbarModes[name]; // full, simple, mini
-                    // Using "||" set icons align right.
-                    //return ["undo", "redo", "|", "bold", "hr", "|", "preview", "watch", "|", "fullscreen", "info"]
+
                 },
                 toolbarIconsClass : {
                     myImage : "fa-file-picture-o"  // 指定一个FontAawsome的图标类
@@ -241,7 +238,6 @@
                 //toolbar  : false,             //关闭工具栏
                 //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
                 emoji : true,
-                placeholder : "请输入markdown内容",
                 taskList : true,
                 tocm            : true,         // Using [TOCM]
                 tex : true,                   // 开启科学公式TeX语言支持，默认关闭
@@ -254,10 +250,18 @@
                 //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
                 imageUpload : true,
                 imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                //imageUploadURL : "./php/upload.php",
                 imageUploadURL : "{{url('admin/editor')}}",
                 onload : function() {
                     console.log('onload', this);
+                    //this.fullscreen();
+                    //this.unwatch();
+                    //this.watch().fullscreen();
 
+                    //this.setMarkdown("#PHP");
+                    //this.width("100%");
+                    //this.height(480);
+                    //this.resize("100%", 640);
                 }
             });
             $("#submit").on('click',function(){
@@ -265,12 +269,10 @@
                 $("#content").val(content);
             });
 
-
-        });
-
-        //选择封面
-        $(".thumb-image").on("click",function() {
-            showChoseImageDialog('',"{{url('admin/image/lib')}}");
+            //选择封面
+            $(".thumb-image").on("click",function() {
+                showChoseImageDialog('',"{{url('admin/image/lib')}}");
+            });
         });
     </script>
 @endsection

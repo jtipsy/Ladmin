@@ -40,18 +40,22 @@
                     <li><a href="{{ url('/37fb591be38db52dd1d5f04b689008f5') }}">Product</a></li>
                     <li><a href="{{ url('/37fb591be38db52dd1d5f04b689008f2') }}">Store</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-						@if (Auth::check())
-						<a href="{{url('logout')}}">
-							<i class="fa fa-user"></i><span>登录</span>
-						</a>
-						@else
-						<a id="loginLink" href="{{url('login')}}">
-							<i class="fa fa-user"></i><span id="account">登录</span>
-						</a>
-						@endif
-					</li>
+				<ul class="nav navbar-nav navbar-right">
+                    <!-- Authentication Links -->
+                    @if (Auth::guard('front')->guest())
+                        <li><a href="{{ url('/login') }}">Login</a></li>
+                        <li><a href="{{ url('/register') }}">Register</a></li>
+                    @else
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                {{ Auth::guard('front')->user()->username }} <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>

@@ -31,7 +31,7 @@ var TableDatatablesAjax = function() {
                     "name": "path",
                     "orderable" : false,
 					"render": function(data,type,row,meta){
-						return data = '<img src="/backend/uploads/small/'+data+'" width="80" height="80" >';
+						return data = '<img src="/backend/uploads/advert/'+data+'" width="80" height="80" >';
 					}
                 },
                 {
